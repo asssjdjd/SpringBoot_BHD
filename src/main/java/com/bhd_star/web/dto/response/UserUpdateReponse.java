@@ -1,19 +1,21 @@
-package com.bhd_star.web.dto.request;
-import lombok.*;
+package com.bhd_star.web.dto.response;
+
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-public class UserCreationResquest {
+public class UserUpdateReponse {
+    String id;
     String username;
     String phonenumber;
     LocalDate dob;
-    String password;
-
 }
