@@ -53,5 +53,12 @@ public class CategoryController {
                 .build();
     }
 
+    @GetMapping("/{type}")
+    ApiResponse<CategoryResponse> getUser(@PathVariable String type) {
+        return ApiResponse.<CategoryResponse>builder()
+                .response(categoryService.getFilm(type))
+                .build();
+    }
+
 
 }

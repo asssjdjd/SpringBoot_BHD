@@ -53,4 +53,10 @@ public class CategoryService {
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
+    public CategoryResponse getFilm(String type){
+        Category category  = categoryRepository.findById(type)
+                .orElseThrow(() -> new RuntimeException("Category category found"));
+        return categoryMapper.toCategoryResponse(category);
+    }
+
 }
