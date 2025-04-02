@@ -1,7 +1,5 @@
 package com.bhd_star.web.dto.response;
 
-import java.time.LocalDate;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,9 +10,15 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateReponse {
-    String id;
-    String username;
-    String phonenumber;
-    LocalDate dob;
+public class TheaterResponse {
+    Long id;
+    String name;
+    String address;
+    String phone;
+    String email;
+    String deleteUrls;
+
+    String policy;
+
+    String images;
 }

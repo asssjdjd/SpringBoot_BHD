@@ -7,11 +7,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bhd_star.web.dto.request.FilmCreationRequest;
-import com.bhd_star.web.dto.response.FilmResponse;
-import com.bhd_star.web.entity.Film;
-import com.bhd_star.web.mapper.FilmMapper;
-import com.bhd_star.web.repository.FilmRepository;
+import com.bhd_star.web.dto.request.TheaterCreationRequest;
+import com.bhd_star.web.dto.response.TheaterResponse;
+import com.bhd_star.web.entity.Theater;
+import com.bhd_star.web.mapper.TheaterMapper;
+import com.bhd_star.web.repository.TheaterRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,22 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class FilmService {
-    FilmRepository filmRepository;
-    FilmMapper filmMapper;
+public class TheaterService {
+
+    TheaterRepository theaterRepository;
+    TheaterMapper theaterMapper;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public FilmResponse createFilm(FilmCreationRequest request) throws IOException {
-        // Tạo đối tượng ImgBBUploader để tải lên ảnh
-        ImgBBUploader uploader = new ImgBBUploader();
+    public List<TheaterResponse> getAllTheaters() {
+        return theaterRepository.findAll().stream()
+                .map(theaterMapper::toTheaterResponse)
+                .toList();
+    }
 
-        // Chuyển đổi request thành entity film
-        Film film = filmMapper.toFilm(request);
+    public TheaterResponse createTheater(TheaterCreationRequest request) {
+        ImgBBUploader uploader = new ImgBBUploader();
+        Theater theater = theaterMapper.toTheater(request);
 
         List<String> imageUrls = new ArrayList<>();
         List<String> deleteUrls = new ArrayList<>();
 
-        // Xử lý tải lên từng ảnh trong danh sách
         if (request.getImages() != null && !request.getImages().isEmpty()) {
             for (MultipartFile file : request.getImages()) {
                 if (!file.isEmpty()) {
@@ -67,46 +71,33 @@ public class FilmService {
                         }
                     } catch (Exception e) {
                         log.error("Lỗi khi tải lên ảnh: {}", e.getMessage());
-                        throw new IOException("Không thể tải lên ảnh: " + e.getMessage(), e);
                     }
                 }
             }
         }
 
-        // Lưu URL ảnh và URL xóa vào film
-        film.setImages(String.join(",", imageUrls));
-        film.setDeleteUrls(String.join(",", deleteUrls));
+        theater.setImages(String.join(",", imageUrls));
+        theater.setDeleteUrls(String.join(",", deleteUrls));
 
-        // Lưu film vào database
-        Film savedFilm = filmRepository.save(film);
+        // Lưu theater vào database
+        Theater savedTheater = theaterRepository.save(theater);
 
         // Chuyển đổi thành response
-        FilmResponse filmResponse = filmMapper.toFilmResponse(savedFilm);
-        filmResponse.setImages(savedFilm.getImages());
+        TheaterResponse filmResponse = theaterMapper.toTheaterResponse(savedTheater);
+        filmResponse.setImages(savedTheater.getImages());
 
         return filmResponse;
     }
 
-    public List<FilmResponse> getAllFilms() {
-        return filmRepository.findAll().stream().map(filmMapper::toFilmResponse).toList();
-    }
-
-    public FilmResponse getFilmById(String filmId) {
-        Film film = filmRepository
-                .findById(filmId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy Film với ID: " + filmId));
-
-        return filmMapper.toFilmResponse(film);
-    }
-
-    public String deleteFilm(String filmId) {
+    public String deleteTheater(Long theaterId) {
         // Tìm film theo ID
-        Film film = filmRepository.findById(filmId).orElseThrow(() -> new RuntimeException("Không tìm thấy Film"));
+        Theater theater =
+                theaterRepository.findById(theaterId).orElseThrow(() -> new RuntimeException("Không tìm thấy Theater"));
 
-        String nameFilm = film.getName();
+        String nameTheater = theater.getName();
 
         // Xử lý xóa ảnh trên ImgBB trước khi xóa record trong database
-        String deleteUrlsString = film.getDeleteUrls();
+        String deleteUrlsString = theater.getDeleteUrls();
 
         if (deleteUrlsString != null && !deleteUrlsString.isEmpty()) {
             // Khởi tạo ImgBBUploader
@@ -144,16 +135,16 @@ public class FilmService {
             }
         }
 
-        // Xóa film khỏi database
-        filmRepository.deleteById(filmId);
+        theaterRepository.deleteById(theaterId);
 
-        return nameFilm;
+        return nameTheater;
     }
 
-    public FilmResponse updateFilm(String filmId, FilmCreationRequest request) {
-        Film film = filmRepository.findById(filmId).orElseThrow(() -> new RuntimeException("Not Found Film"));
+    public TheaterResponse updateTheater(Long theaterId, TheaterCreationRequest request) {
+        Theater theater =
+                theaterRepository.findById(theaterId).orElseThrow(() -> new RuntimeException("Not Found Film"));
 
-        filmMapper.updateFilm(film, request);
+        theaterMapper.updateTheater(theater, request);
         ImgBBUploader uploader = new ImgBBUploader();
         List<String> imageUrls = new ArrayList<>();
         List<String> deleteUrls = new ArrayList<>();
@@ -192,16 +183,15 @@ public class FilmService {
         }
 
         // Lưu URL ảnh và URL xóa vào film
-        film.setImages(String.join(",", imageUrls));
-        film.setDeleteUrls(String.join(",", deleteUrls));
+        theater.setImages(String.join(",", imageUrls));
+        theater.setDeleteUrls(String.join(",", deleteUrls));
 
-        return filmMapper.toFilmResponse(filmRepository.save(film));
+        return theaterMapper.toTheaterResponse(theaterRepository.save(theater));
     }
 
-    public FilmResponse showFilm(String filmId) {
-        Film film = filmRepository.findById(filmId).orElseThrow(() -> new RuntimeException("Film not found"));
-        return filmMapper.toFilmResponse(film);
+    public TheaterResponse showTheater(Long theaterId) {
+        Theater theater =
+                theaterRepository.findById(theaterId).orElseThrow(() -> new RuntimeException("Film not found"));
+        return theaterMapper.toTheaterResponse(theater);
     }
-
-    // Có thể thêm các phương thức khác như updateFilm, deleteOneImage, v.v.
 }

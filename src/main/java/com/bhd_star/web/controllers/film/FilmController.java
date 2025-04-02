@@ -1,23 +1,24 @@
 package com.bhd_star.web.controllers.film;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
 import com.bhd_star.web.dto.request.FilmCreationRequest;
 import com.bhd_star.web.dto.response.ApiResponse;
 import com.bhd_star.web.dto.response.FilmResponse;
-import com.bhd_star.web.dto.response.UserResponse;
 import com.bhd_star.web.service.FilmService;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/films")
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Builder
 @Slf4j
 public class FilmController {
@@ -32,7 +33,6 @@ public class FilmController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @GetMapping
@@ -45,14 +45,15 @@ public class FilmController {
     @DeleteMapping("/{filmId}")
     public ApiResponse<String> deleteFilm(@PathVariable String filmId) {
         return ApiResponse.<String>builder()
-                .response("Film " + filmService.deleteFilm(filmId) +  " has been deleted")
+                .response("Film " + filmService.deleteFilm(filmId) + " has been deleted")
                 .build();
     }
 
-    @PutMapping( value = "/{filmId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<FilmResponse> updateFilm(@PathVariable String filmId, @ModelAttribute FilmCreationRequest request){
+    @PutMapping(value = "/{filmId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<FilmResponse> updateFilm(
+            @PathVariable String filmId, @ModelAttribute FilmCreationRequest request) {
         return ApiResponse.<FilmResponse>builder()
-                .response(filmService.updateFilm(filmId,request))
+                .response(filmService.updateFilm(filmId, request))
                 .build();
     }
 
@@ -62,7 +63,4 @@ public class FilmController {
                 .response(filmService.showFilm(filmId))
                 .build();
     }
-
-
-
 }

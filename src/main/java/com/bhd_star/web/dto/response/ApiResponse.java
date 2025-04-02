@@ -1,7 +1,7 @@
 package com.bhd_star.web.dto.response;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class ApiResponse<T> {
     @Builder.Default
     int code = 1000; // tra ve neu thanh cong
+
     String message = ""; // thong bao thong tin
     T response;
-
 }

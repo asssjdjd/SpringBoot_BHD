@@ -1,24 +1,23 @@
 package com.bhd_star.web.controllers.category;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.bhd_star.web.dto.request.CategoryRequest;
-import com.bhd_star.web.dto.request.UserUpdateRequest;
 import com.bhd_star.web.dto.response.ApiResponse;
 import com.bhd_star.web.dto.response.CategoryResponse;
-import com.bhd_star.web.dto.response.UserResponse;
 import com.bhd_star.web.service.CategoryService;
+
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/categorys")
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class CategoryController {
     CategoryService categoryService;
@@ -47,9 +46,9 @@ public class CategoryController {
 
     @PutMapping("{type}")
     ApiResponse<CategoryResponse> updateUser(@PathVariable String type, @RequestBody CategoryRequest request) {
-//        log.info("excuted this function updateUser");
+        //        log.info("excuted this function updateUser");
         return ApiResponse.<CategoryResponse>builder()
-                .response(categoryService.updateCategory(type,request))
+                .response(categoryService.updateCategory(type, request))
                 .build();
     }
 
@@ -59,6 +58,4 @@ public class CategoryController {
                 .response(categoryService.getFilm(type))
                 .build();
     }
-
-
 }

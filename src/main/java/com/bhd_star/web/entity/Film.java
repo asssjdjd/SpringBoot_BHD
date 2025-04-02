@@ -1,12 +1,11 @@
 package com.bhd_star.web.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Data
@@ -18,6 +17,7 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
+
     String video_link;
 
     String deleteUrls;

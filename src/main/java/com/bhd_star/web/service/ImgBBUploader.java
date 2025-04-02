@@ -1,17 +1,16 @@
 package com.bhd_star.web.service;
+
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ImgBBUploader {
     private static final String IMGBB_API_URL = "https://api.imgbb.com/1/upload";
@@ -31,7 +30,8 @@ public class ImgBBUploader {
 
         // Gửi yêu cầu POST tới ImgBB
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        ResponseEntity<String> response = restTemplate.exchange(IMGBB_API_URL, HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<String> response =
+                restTemplate.exchange(IMGBB_API_URL, HttpMethod.POST, requestEntity, String.class);
 
         // Trả về phản hồi đầy đủ
         return response.getBody();
@@ -70,7 +70,8 @@ public class ImgBBUploader {
                 headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
                 HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
-                ResponseEntity<String> response = restTemplate.exchange(deleteApiUrl, HttpMethod.POST, requestEntity, String.class);
+                ResponseEntity<String> response =
+                        restTemplate.exchange(deleteApiUrl, HttpMethod.POST, requestEntity, String.class);
 
                 if (response.getStatusCode() != HttpStatus.OK) {
                     throw new IOException("Failed to delete image on ImgBB. Status: " + response.getStatusCode());

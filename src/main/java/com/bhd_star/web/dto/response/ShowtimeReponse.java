@@ -12,9 +12,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateReponse {
-    String id;
-    String username;
-    String phonenumber;
-    LocalDate dob;
+public class ShowtimeReponse {
+    Long id;
+    LocalDate start_time;
+    Long theater_id;
+    String film_id;
 }

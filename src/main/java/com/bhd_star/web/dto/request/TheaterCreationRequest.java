@@ -1,6 +1,5 @@
 package com.bhd_star.web.dto.request;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -13,14 +12,15 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class FilmCreationRequest {
-    String video_link;
-    List<MultipartFile> images;
+public class TheaterCreationRequest {
     String name;
-    int duration;
-    String name_director;
-    LocalDate launch_date;
-    String description;
-    String category_name;
+    String address;
+    String phone;
+    String email;
+
+    String policy;
+
     String deleteUrls;
+
+    List<MultipartFile> images;
 }

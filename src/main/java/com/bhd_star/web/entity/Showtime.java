@@ -1,5 +1,7 @@
 package com.bhd_star.web.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,10 +16,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class Category {
+public class Showtime {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-
-    String type;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    LocalDate start_time;
+    Long theater_id;
+    String film_id;
 }

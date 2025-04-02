@@ -10,9 +10,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class UserCreationResquest {
-    String username;
-    String phonenumber;
-    LocalDate dob;
-    String password;
+public class ShowtimeCreationRequest {
+    LocalDate start_time;
+    Long theater_id;
+    String film_id;
 }
