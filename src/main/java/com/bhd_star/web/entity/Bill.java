@@ -1,15 +1,13 @@
 package com.bhd_star.web.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.springframework.data.util.Pair;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Data
@@ -31,5 +29,4 @@ public class Bill {
     User user;
 
     List<String> description = new ArrayList<>();
-
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.bhd_star.web.entity.Showtime;
 
 @Repository
-public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {}
+public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
+}

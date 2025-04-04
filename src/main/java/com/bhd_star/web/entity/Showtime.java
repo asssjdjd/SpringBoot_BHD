@@ -20,6 +20,7 @@ public class Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     LocalDate start_time;
     Long theater_id;
     String film_id;

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.bhd_star.web.entity.Film;
 
 @Repository
-public interface FilmRepository extends JpaRepository<Film, String> {}
+public interface FilmRepository extends JpaRepository<Film, String> {
+    boolean existsByName(String name);
+}

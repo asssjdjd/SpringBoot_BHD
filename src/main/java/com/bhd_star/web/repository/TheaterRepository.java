@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.bhd_star.web.entity.Theater;
 
 @Repository
-public interface TheaterRepository extends JpaRepository<Theater, Long> {}
+public interface TheaterRepository extends JpaRepository<Theater, Long> {
+    boolean existsByName(String name);
+}

@@ -1,27 +1,26 @@
 package com.bhd_star.web.service;
 
-import com.bhd_star.web.dto.request.FilmCreationRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.bhd_star.web.exception.AppException;
+import com.bhd_star.web.exception.ErrorCode;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.bhd_star.web.dto.request.FoodComboCreationRequest;
-import com.bhd_star.web.dto.response.FilmResponse;
 import com.bhd_star.web.dto.response.FoodComboResponse;
-import com.bhd_star.web.entity.Film;
 import com.bhd_star.web.entity.FoodCombo;
-import com.bhd_star.web.mapper.FilmMapper;
 import com.bhd_star.web.mapper.FoodComboMapper;
-import com.bhd_star.web.repository.FilmRepository;
 import com.bhd_star.web.repository.FoodComboRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -70,7 +69,7 @@ public class FoodComboService {
                         }
                     } catch (Exception e) {
                         log.error("Lỗi khi tải lên ảnh: {}", e.getMessage());
-                        throw new IOException("Không thể tải lên ảnh: " + e.getMessage(), e);
+                        throw new AppException(ErrorCode.IMAGE_NOT_UPLOAD);
                     }
                 }
             }
@@ -91,7 +90,9 @@ public class FoodComboService {
     }
 
     public List<FoodComboResponse> getAllFoodCombos() {
-        return foodComboRepository.findAll().stream().map(foodComboMapper::toFoodComboResponse).toList();
+        return foodComboRepository.findAll().stream()
+                .map(foodComboMapper::toFoodComboResponse)
+                .toList();
     }
 
     public FoodComboResponse getFoodComboById(Long foodComboId) {
@@ -104,48 +105,49 @@ public class FoodComboService {
 
     public String deleteFoodCombo(Long foodComboId) {
         // Tìm film theo ID
-        FoodCombo foodCombo = foodComboRepository.findById(foodComboId).orElseThrow(() -> new RuntimeException("Không tìm thấy "));
+        FoodCombo foodCombo =
+                foodComboRepository.findById(foodComboId).orElseThrow(() -> new RuntimeException("Không tìm thấy "));
 
         String nameFoodCombo = foodCombo.getName();
 
         // Xử lý xóa ảnh trên ImgBB trước khi xóa record trong database
-        String deleteUrlsString = foodCombo.getDeleteUrls();
-
-        if (deleteUrlsString != null && !deleteUrlsString.isEmpty()) {
-            // Khởi tạo ImgBBUploader
-            ImgBBUploader uploader = new ImgBBUploader();
-
-            // Phân tách các URL xóa
-            List<String> deleteUrls = new ArrayList<>();
-
-            // Xử lý các trường hợp đặc biệt của chuỗi URL xóa
-            if (deleteUrlsString.endsWith(",")) {
-                deleteUrlsString = deleteUrlsString.substring(0, deleteUrlsString.length() - 1);
-            }
-
-            if (deleteUrlsString.contains(",")) {
-                String[] urls = deleteUrlsString.split(",");
-                for (String url : urls) {
-                    if (url != null && !url.trim().isEmpty()) {
-                        deleteUrls.add(url.trim());
-                    }
-                }
-            } else if (!deleteUrlsString.trim().isEmpty()) {
-                deleteUrls.add(deleteUrlsString.trim());
-            }
-
-            // Xóa từng ảnh trên ImgBB
-            for (String deleteUrl : deleteUrls) {
-                try {
-                    log.debug("Đang xóa ảnh với URL: {}", deleteUrl);
-                    uploader.deleteImage(deleteUrl);
-                    log.debug("Đã xóa ảnh thành công");
-                } catch (IOException e) {
-                    // Log lỗi nhưng vẫn tiếp tục xóa các ảnh khác
-                    log.error("Lỗi khi xóa ảnh {}: {}", deleteUrl, e.getMessage());
-                }
-            }
-        }
+//        String deleteUrlsString = foodCombo.getDeleteUrls();
+//
+//        if (deleteUrlsString != null && !deleteUrlsString.isEmpty()) {
+//            // Khởi tạo ImgBBUploader
+//            ImgBBUploader uploader = new ImgBBUploader();
+//
+//            // Phân tách các URL xóa
+//            List<String> deleteUrls = new ArrayList<>();
+//
+//            // Xử lý các trường hợp đặc biệt của chuỗi URL xóa
+//            if (deleteUrlsString.endsWith(",")) {
+//                deleteUrlsString = deleteUrlsString.substring(0, deleteUrlsString.length() - 1);
+//            }
+//
+//            if (deleteUrlsString.contains(",")) {
+//                String[] urls = deleteUrlsString.split(",");
+//                for (String url : urls) {
+//                    if (url != null && !url.trim().isEmpty()) {
+//                        deleteUrls.add(url.trim());
+//                    }
+//                }
+//            } else if (!deleteUrlsString.trim().isEmpty()) {
+//                deleteUrls.add(deleteUrlsString.trim());
+//            }
+//
+//            // Xóa từng ảnh trên ImgBB
+//            for (String deleteUrl : deleteUrls) {
+//                try {
+//                    log.debug("Đang xóa ảnh với URL: {}", deleteUrl);
+//                    uploader.deleteImage(deleteUrl);
+//                    log.debug("Đã xóa ảnh thành công");
+//                } catch (IOException e) {
+//                    // Log lỗi nhưng vẫn tiếp tục xóa các ảnh khác
+//                    log.error("Lỗi khi xóa ảnh {}: {}", deleteUrl, e.getMessage());
+//                }
+//            }
+//        }
 
         // Xóa film khỏi database
         foodComboRepository.deleteById(foodComboId);
@@ -154,7 +156,8 @@ public class FoodComboService {
     }
 
     public FoodComboResponse updateFoodCombo(Long foodComboId, FoodComboCreationRequest request) {
-        FoodCombo foodCombo = foodComboRepository.findById(foodComboId).orElseThrow(() -> new RuntimeException("Không tìm thấy "));
+        FoodCombo foodCombo =
+                foodComboRepository.findById(foodComboId).orElseThrow(() -> new RuntimeException("Không tìm thấy "));
 
         foodComboMapper.updateFoodCombo(foodCombo, request);
         ImgBBUploader uploader = new ImgBBUploader();
@@ -202,7 +205,8 @@ public class FoodComboService {
     }
 
     public FoodComboResponse showFoodCombo(Long foodComboId) {
-        FoodCombo foodCombo = foodComboRepository.findById(foodComboId).orElseThrow(() -> new RuntimeException("Film not found"));
+        FoodCombo foodCombo =
+                foodComboRepository.findById(foodComboId).orElseThrow(() -> new RuntimeException("Film not found"));
         return foodComboMapper.toFoodComboResponse(foodCombo);
     }
 

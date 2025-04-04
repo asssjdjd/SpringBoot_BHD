@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bhd_star.web.dto.request.FilmCreationRequest;
 import com.bhd_star.web.dto.response.FilmResponse;
 import com.bhd_star.web.entity.Film;
+import com.bhd_star.web.exception.AppException;
+import com.bhd_star.web.exception.ErrorCode;
 import com.bhd_star.web.mapper.FilmMapper;
 import com.bhd_star.web.repository.FilmRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,6 +34,9 @@ public class FilmService {
     public FilmResponse createFilm(FilmCreationRequest request) throws IOException {
         // Tạo đối tượng ImgBBUploader để tải lên ảnh
         ImgBBUploader uploader = new ImgBBUploader();
+
+        String name = request.getName().trim().toLowerCase();
+        if (filmRepository.existsByName(name)) throw new AppException(ErrorCode.FILM_EXISTED);
 
         // Chuyển đổi request thành entity film
         Film film = filmMapper.toFilm(request);
@@ -67,7 +72,7 @@ public class FilmService {
                         }
                     } catch (Exception e) {
                         log.error("Lỗi khi tải lên ảnh: {}", e.getMessage());
-                        throw new IOException("Không thể tải lên ảnh: " + e.getMessage(), e);
+                        throw new AppException(ErrorCode.IMAGE_NOT_UPLOAD);
                     }
                 }
             }
@@ -91,58 +96,51 @@ public class FilmService {
         return filmRepository.findAll().stream().map(filmMapper::toFilmResponse).toList();
     }
 
-    public FilmResponse getFilmById(String filmId) {
-        Film film = filmRepository
-                .findById(filmId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy Film với ID: " + filmId));
-
-        return filmMapper.toFilmResponse(film);
-    }
-
     public String deleteFilm(String filmId) {
         // Tìm film theo ID
-        Film film = filmRepository.findById(filmId).orElseThrow(() -> new RuntimeException("Không tìm thấy Film"));
+        Film film = filmRepository.findById(filmId).orElseThrow(() -> new AppException(ErrorCode.FILM_NOT_FOUND));
 
         String nameFilm = film.getName();
 
         // Xử lý xóa ảnh trên ImgBB trước khi xóa record trong database
-        String deleteUrlsString = film.getDeleteUrls();
-
-        if (deleteUrlsString != null && !deleteUrlsString.isEmpty()) {
-            // Khởi tạo ImgBBUploader
-            ImgBBUploader uploader = new ImgBBUploader();
-
-            // Phân tách các URL xóa
-            List<String> deleteUrls = new ArrayList<>();
-
-            // Xử lý các trường hợp đặc biệt của chuỗi URL xóa
-            if (deleteUrlsString.endsWith(",")) {
-                deleteUrlsString = deleteUrlsString.substring(0, deleteUrlsString.length() - 1);
-            }
-
-            if (deleteUrlsString.contains(",")) {
-                String[] urls = deleteUrlsString.split(",");
-                for (String url : urls) {
-                    if (url != null && !url.trim().isEmpty()) {
-                        deleteUrls.add(url.trim());
-                    }
-                }
-            } else if (!deleteUrlsString.trim().isEmpty()) {
-                deleteUrls.add(deleteUrlsString.trim());
-            }
-
-            // Xóa từng ảnh trên ImgBB
-            for (String deleteUrl : deleteUrls) {
-                try {
-                    log.debug("Đang xóa ảnh với URL: {}", deleteUrl);
-                    uploader.deleteImage(deleteUrl);
-                    log.debug("Đã xóa ảnh thành công");
-                } catch (IOException e) {
-                    // Log lỗi nhưng vẫn tiếp tục xóa các ảnh khác
-                    log.error("Lỗi khi xóa ảnh {}: {}", deleteUrl, e.getMessage());
-                }
-            }
-        }
+        //        String deleteUrlsString = film.getDeleteUrls();
+        //
+        //        if (deleteUrlsString != null && !deleteUrlsString.isEmpty()) {
+        //            // Khởi tạo ImgBBUploader
+        //            ImgBBUploader uploader = new ImgBBUploader();
+        //
+        //            // Phân tách các URL xóa
+        //            List<String> deleteUrls = new ArrayList<>();
+        //
+        //            // Xử lý các trường hợp đặc biệt của chuỗi URL xóa
+        //            if (deleteUrlsString.endsWith(",")) {
+        //                deleteUrlsString = deleteUrlsString.substring(0, deleteUrlsString.length() - 1);
+        //            }
+        //
+        //            if (deleteUrlsString.contains(",")) {
+        //                String[] urls = deleteUrlsString.split(",");
+        //                for (String url : urls) {
+        //                    if (url != null && !url.trim().isEmpty()) {
+        //                        deleteUrls.add(url.trim());
+        //                    }
+        //                }
+        //            } else if (!deleteUrlsString.trim().isEmpty()) {
+        //                deleteUrls.add(deleteUrlsString.trim());
+        //            }
+        //
+        //            // Xóa từng ảnh trên ImgBB
+        //            for (String deleteUrl : deleteUrls) {
+        //                try {
+        //                    log.debug("Đang xóa ảnh với URL: {}", deleteUrl);
+        //                    uploader.deleteImage(deleteUrl);
+        //                    log.debug("Đã xóa ảnh thành công");
+        //                } catch (IOException e) {
+        //                    // Log lỗi nhưng vẫn tiếp tục xóa các ảnh khác
+        //                    log.error("Lỗi khi xóa ảnh {}: {}", deleteUrl, e.getMessage());
+        //                    throw new AppException(ErrorCode.IMAGE_NOT_UPLOAD);
+        //                }
+        //            }
+        //        }
 
         // Xóa film khỏi database
         filmRepository.deleteById(filmId);
@@ -151,7 +149,7 @@ public class FilmService {
     }
 
     public FilmResponse updateFilm(String filmId, FilmCreationRequest request) {
-        Film film = filmRepository.findById(filmId).orElseThrow(() -> new RuntimeException("Not Found Film"));
+        Film film = filmRepository.findById(filmId).orElseThrow(() -> new AppException(ErrorCode.FILM_NOT_FOUND));
 
         filmMapper.updateFilm(film, request);
         ImgBBUploader uploader = new ImgBBUploader();
@@ -186,6 +184,7 @@ public class FilmService {
                         }
                     } catch (Exception e) {
                         log.error("Lỗi khi tải lên ảnh: {}", e.getMessage());
+                        throw new AppException(ErrorCode.IMAGE_NOT_UPLOAD);
                     }
                 }
             }
@@ -199,7 +198,7 @@ public class FilmService {
     }
 
     public FilmResponse showFilm(String filmId) {
-        Film film = filmRepository.findById(filmId).orElseThrow(() -> new RuntimeException("Film not found"));
+        Film film = filmRepository.findById(filmId).orElseThrow(() -> new AppException(ErrorCode.FILM_NOT_FOUND));
         return filmMapper.toFilmResponse(film);
     }
 

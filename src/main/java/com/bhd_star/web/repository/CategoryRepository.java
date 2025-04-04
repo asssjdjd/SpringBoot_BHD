@@ -17,4 +17,6 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
     void deleteByType(@Param("type") String type);
 
     Optional<Category> findByType(String type);
+
+    Boolean existsByType(String type);
 }

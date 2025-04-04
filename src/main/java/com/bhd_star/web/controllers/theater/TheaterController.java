@@ -2,6 +2,7 @@ package com.bhd_star.web.controllers.theater;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.bhd_star.web.dto.request.TheaterCreationRequest;
@@ -30,7 +31,7 @@ public class TheaterController {
     }
 
     @PostMapping
-    public ApiResponse<TheaterResponse> createCategory(@ModelAttribute TheaterCreationRequest request) {
+    public ApiResponse<TheaterResponse> createCategory(@ModelAttribute @Valid TheaterCreationRequest request) {
         return ApiResponse.<TheaterResponse>builder()
                 .response(theaterService.createTheater(request))
                 .build();

@@ -1,14 +1,12 @@
 package com.bhd_star.web.mapper;
 
-import com.bhd_star.web.dto.request.FilmCreationRequest;
-import com.bhd_star.web.dto.request.FoodComboCreationRequest;
-import com.bhd_star.web.dto.response.FilmResponse;
-import com.bhd_star.web.dto.response.FoodComboResponse;
-import com.bhd_star.web.entity.Film;
-import com.bhd_star.web.entity.FoodCombo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+
+import com.bhd_star.web.dto.request.FoodComboCreationRequest;
+import com.bhd_star.web.dto.response.FoodComboResponse;
+import com.bhd_star.web.entity.FoodCombo;
 
 @Mapper(componentModel = "spring")
 public interface FoodComboMapper {

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bhd_star.web.exception.AppException;
+import com.bhd_star.web.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +42,9 @@ public class TheaterService {
     public TheaterResponse createTheater(TheaterCreationRequest request) {
         ImgBBUploader uploader = new ImgBBUploader();
         Theater theater = theaterMapper.toTheater(request);
+        String name_theater = request.getName();
+        if(theaterRepository.existsByName(name_theater))
+            throw new AppException(ErrorCode.THEATER_EXITED);
 
         List<String> imageUrls = new ArrayList<>();
         List<String> deleteUrls = new ArrayList<>();
@@ -71,6 +76,7 @@ public class TheaterService {
                         }
                     } catch (Exception e) {
                         log.error("Lỗi khi tải lên ảnh: {}", e.getMessage());
+                        throw new AppException(ErrorCode.IMAGE_NOT_UPLOAD);
                     }
                 }
             }
@@ -92,8 +98,7 @@ public class TheaterService {
     public String deleteTheater(Long theaterId) {
         // Tìm film theo ID
         Theater theater =
-                theaterRepository.findById(theaterId).orElseThrow(() -> new RuntimeException("Không tìm thấy Theater"));
-
+                theaterRepository.findById(theaterId).orElseThrow(() -> new AppException(ErrorCode.THEATER_NOT_FOUND));
         String nameTheater = theater.getName();
 
         // Xử lý xóa ảnh trên ImgBB trước khi xóa record trong database
@@ -142,7 +147,7 @@ public class TheaterService {
 
     public TheaterResponse updateTheater(Long theaterId, TheaterCreationRequest request) {
         Theater theater =
-                theaterRepository.findById(theaterId).orElseThrow(() -> new RuntimeException("Not Found Film"));
+                theaterRepository.findById(theaterId).orElseThrow(() -> new AppException(ErrorCode.THEATER_NOT_FOUND));
 
         theaterMapper.updateTheater(theater, request);
         ImgBBUploader uploader = new ImgBBUploader();
@@ -177,6 +182,7 @@ public class TheaterService {
                         }
                     } catch (Exception e) {
                         log.error("Lỗi khi tải lên ảnh: {}", e.getMessage());
+                        throw new AppException(ErrorCode.IMAGE_NOT_UPLOAD);
                     }
                 }
             }
@@ -191,7 +197,7 @@ public class TheaterService {
 
     public TheaterResponse showTheater(Long theaterId) {
         Theater theater =
-                theaterRepository.findById(theaterId).orElseThrow(() -> new RuntimeException("Film not found"));
+                theaterRepository.findById(theaterId).orElseThrow(() -> new AppException(ErrorCode.THEATER_NOT_FOUND));
         return theaterMapper.toTheaterResponse(theater);
     }
 }
