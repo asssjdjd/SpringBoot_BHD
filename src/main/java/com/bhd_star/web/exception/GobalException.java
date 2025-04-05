@@ -5,8 +5,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import jakarta.validation.ConstraintViolation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GobalException {
     //    xu ly lop exception chung vi du cac van de khac
     private static final String MIN_ATTRIBUTE = "min";
-    
+
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse> handlingRuntimeException(Exception exception) {
         log.error("Exception : ", exception);
@@ -70,54 +72,50 @@ public class GobalException {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    //    @ExceptionHandler(value = AccessDeniedException.class)
-    //    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception) {
-    //        ApiResponse apiResponse = new ApiResponse();
-    //        ErorrCode erorrCode = ErorrCode.UNAUTHORIZED;
-    //
-    //        apiResponse.setCode(erorrCode.getCode());
-    //        apiResponse.setMessage(erorrCode.getMessage());
-    //
-    //        return ResponseEntity
-    //                .status(erorrCode.getStatusCode())
-    //                .body(apiResponse);
-    //
-    //    }
-
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception){
+    ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception) {
         String enumKey = exception.getFieldError().getDefaultMessage();
 
         ErrorCode errorCode = ErrorCode.INVALID_KEY;
         Map<String, Object> attributes = null;
         try {
-//            neu cai nay dung thi in ra
+            //            neu cai nay dung thi in ra
             errorCode = ErrorCode.valueOf(enumKey);
 
-            var constraintViolation = exception.getBindingResult()
-                    .getAllErrors().getFirst().unwrap(ConstraintViolation.class);
+            var constraintViolation =
+                    exception.getBindingResult().getAllErrors().getFirst().unwrap(ConstraintViolation.class);
 
             attributes = constraintViolation.getConstraintDescriptor().getAttributes();
 
             log.info(attributes.toString());
 
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             log.info("you failed the name exception");
         }
 
         ApiResponse apiResponse = new ApiResponse();
 
         apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(Objects.nonNull(attributes) ?
-                mapAttribute(errorCode.getMessge(), attributes)
-                : errorCode.getMessge());
+        apiResponse.setMessage(
+                Objects.nonNull(attributes) ? mapAttribute(errorCode.getMessge(), attributes) : errorCode.getMessge());
 
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    private String mapAttribute(String message, Map<String, Object> attributes){
+    private String mapAttribute(String message, Map<String, Object> attributes) {
         String minValue = String.valueOf(attributes.get(MIN_ATTRIBUTE));
 
         return message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception) {
+        ApiResponse apiResponse = new ApiResponse();
+        ErrorCode erorrCode = ErrorCode.UNAUTHORIZED;
+
+        apiResponse.setCode(erorrCode.getCode());
+        apiResponse.setMessage(erorrCode.getMessge());
+
+        return ResponseEntity.status(erorrCode.getStatusCode()).body(apiResponse);
     }
 }

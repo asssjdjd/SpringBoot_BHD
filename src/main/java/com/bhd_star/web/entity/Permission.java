@@ -15,28 +15,21 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class Role {
+public class Permission {
     @Id
     String name;
 
     String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "role_permission",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @ManyToMany(mappedBy = "permissions")
     @JsonIgnore
-    Set<Permission> permissions;
-
-    @ManyToMany(mappedBy = "roles")
-    Set<User> users;
+    Set<Role> roles;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role)) return false;
-        Role that = (Role) o;
+        if (!(o instanceof Permission)) return false;
+        Permission that = (Permission) o;
         return name != null && name.equals(that.name);
     }
 

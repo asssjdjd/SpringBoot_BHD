@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bhd_star.web.dto.request.CategoryRequest;
@@ -33,6 +34,7 @@ public class CategoryService {
         return categorys.stream().map(categoryMapper::toCategoryResponse).toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse createCategory(CategoryRequest request) {
         String type = request.getType();
         if (categoryRepository.existsByType(type)) throw new AppException(ErrorCode.CATEGORY_TYPE_EXISTED);
@@ -48,6 +50,7 @@ public class CategoryService {
         categoryRepository.deleteByType(type);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse updateCategory(String type, CategoryRequest request) {
         Category category = categoryRepository
                 .findByType(type)

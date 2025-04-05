@@ -24,6 +24,7 @@ spring:
     resources:
       static-locations: classpath:/static/
 
-
+jwt:
+  signerKey: "d+cNWwyPpTw3HwhOJWXtJ8ZbiVUTFdwfGdVXigHmMbafFr83Gm43VFBnMZIH0OU0"
 
 

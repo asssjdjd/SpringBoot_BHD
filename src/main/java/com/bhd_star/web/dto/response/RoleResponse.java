@@ -1,9 +1,8 @@
 package com.bhd_star.web.dto.response;
 
-import java.time.LocalDate;
 import java.util.Set;
 
-import com.bhd_star.web.entity.Role;
+import com.bhd_star.web.entity.Permission;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,10 +14,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateReponse {
-    String id;
-    String username;
-    String phonenumber;
-    LocalDate dob;
-    Set<Role> roles;
+public class RoleResponse {
+    String name;
+    String description;
+    //    sau khi anh xa sang tu name => Permission_response
+    Set<Permission> permissions;
 }

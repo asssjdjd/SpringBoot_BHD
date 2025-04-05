@@ -3,6 +3,7 @@ package com.bhd_star.web.controllers.User;
 import java.util.List;
 
 import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.bhd_star.web.dto.request.UserCreationResquest;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid  UserCreationResquest request) {
+    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationResquest request) {
         return ApiResponse.<UserResponse>builder()
                 .response(userService.createUser(request))
                 .build();

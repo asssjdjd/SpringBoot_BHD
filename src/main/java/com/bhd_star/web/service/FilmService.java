@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ public class FilmService {
     FilmMapper filmMapper;
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @PreAuthorize("hasRole('ADMIN')")
     public FilmResponse createFilm(FilmCreationRequest request) throws IOException {
         // Tạo đối tượng ImgBBUploader để tải lên ảnh
         ImgBBUploader uploader = new ImgBBUploader();
@@ -96,6 +98,7 @@ public class FilmService {
         return filmRepository.findAll().stream().map(filmMapper::toFilmResponse).toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteFilm(String filmId) {
         // Tìm film theo ID
         Film film = filmRepository.findById(filmId).orElseThrow(() -> new AppException(ErrorCode.FILM_NOT_FOUND));
@@ -148,6 +151,7 @@ public class FilmService {
         return nameFilm;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public FilmResponse updateFilm(String filmId, FilmCreationRequest request) {
         Film film = filmRepository.findById(filmId).orElseThrow(() -> new AppException(ErrorCode.FILM_NOT_FOUND));
 

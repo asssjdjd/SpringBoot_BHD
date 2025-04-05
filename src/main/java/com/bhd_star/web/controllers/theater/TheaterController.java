@@ -3,6 +3,7 @@ package com.bhd_star.web.controllers.theater;
 import java.util.List;
 
 import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.bhd_star.web.dto.request.TheaterCreationRequest;

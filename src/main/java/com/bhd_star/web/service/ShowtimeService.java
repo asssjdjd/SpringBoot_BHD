@@ -2,6 +2,7 @@ package com.bhd_star.web.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bhd_star.web.dto.request.ShowtimeCreationRequest;
@@ -30,12 +31,14 @@ public class ShowtimeService {
                 .toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public ShowtimeReponse createShowtime(ShowtimeCreationRequest request) {
         Showtime showtime = showtimeMapper.toShowtime(request);
         return showtimeMapper.toShowtimeReponse(showtimeRepository.save(showtime));
     }
 
     //     viet exception
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteShowtime(Long showtimeId) {
         Showtime showtime =
                 showtimeRepository.findById(showtimeId).orElseThrow(() -> new RuntimeException("Showtime not found"));
@@ -43,6 +46,7 @@ public class ShowtimeService {
         return showtime.getFilm_id();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public ShowtimeReponse updateShowtime(Long showtimeId, ShowtimeCreationRequest request) {
         Showtime showtime =
                 showtimeRepository.findById(showtimeId).orElseThrow(() -> new RuntimeException("Showtime not found"));

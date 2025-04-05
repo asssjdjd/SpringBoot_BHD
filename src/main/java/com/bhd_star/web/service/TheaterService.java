@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bhd_star.web.exception.AppException;
-import com.bhd_star.web.exception.ErrorCode;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bhd_star.web.dto.request.TheaterCreationRequest;
 import com.bhd_star.web.dto.response.TheaterResponse;
 import com.bhd_star.web.entity.Theater;
+import com.bhd_star.web.exception.AppException;
+import com.bhd_star.web.exception.ErrorCode;
 import com.bhd_star.web.mapper.TheaterMapper;
 import com.bhd_star.web.repository.TheaterRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,18 +34,19 @@ public class TheaterService {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+
     public List<TheaterResponse> getAllTheaters() {
         return theaterRepository.findAll().stream()
                 .map(theaterMapper::toTheaterResponse)
                 .toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public TheaterResponse createTheater(TheaterCreationRequest request) {
         ImgBBUploader uploader = new ImgBBUploader();
         Theater theater = theaterMapper.toTheater(request);
         String name_theater = request.getName();
-        if(theaterRepository.existsByName(name_theater))
-            throw new AppException(ErrorCode.THEATER_EXITED);
+        if (theaterRepository.existsByName(name_theater)) throw new AppException(ErrorCode.THEATER_EXITED);
 
         List<String> imageUrls = new ArrayList<>();
         List<String> deleteUrls = new ArrayList<>();
@@ -95,6 +97,7 @@ public class TheaterService {
         return filmResponse;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteTheater(Long theaterId) {
         // Tìm film theo ID
         Theater theater =
@@ -145,6 +148,7 @@ public class TheaterService {
         return nameTheater;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public TheaterResponse updateTheater(Long theaterId, TheaterCreationRequest request) {
         Theater theater =
                 theaterRepository.findById(theaterId).orElseThrow(() -> new AppException(ErrorCode.THEATER_NOT_FOUND));
@@ -194,6 +198,7 @@ public class TheaterService {
 
         return theaterMapper.toTheaterResponse(theaterRepository.save(theater));
     }
+
 
     public TheaterResponse showTheater(Long theaterId) {
         Theater theater =
