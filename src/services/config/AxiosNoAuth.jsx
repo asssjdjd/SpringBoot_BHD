@@ -9,4 +9,17 @@ const axiosNoAuth = axios.create({
   },
 });
 
+// axiosNoAuth.interceptors.response.use(
+//   (response) => {
+//     if (response.status >= 200 && response.status < 300) {
+//       return response.data?.data || response.data;
+//     } else {
+//       throw new Error(response.data?.message || 'Unexpected error');
+//     }
+//   },
+//   (error) => {
+//     Promise.reject(error)
+//   }
+// );
+
 export default axiosNoAuth;

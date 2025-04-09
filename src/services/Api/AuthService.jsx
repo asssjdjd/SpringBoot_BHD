@@ -5,9 +5,11 @@ import axiosNoAuth from '../config/AxiosNoAuth';
 
 const authService = {
     login: (username, password) => axiosNoAuth.post('/auth/token', { username, password }),
-    register: (name, email, password) => axiosClient.post('/auth/register', { name, email, password }),
+
     logout: () => axiosClient.post('/auth/logout'),
+
     refreshToken: () => axiosClient.post('/auth/refresh-token'),
+    // get my infor
     getCurrentUser: () => {
         const token = localStorage.getItem('token');
         if (token) {
