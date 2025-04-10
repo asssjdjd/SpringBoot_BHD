@@ -14,13 +14,16 @@ const AllFilms = () => {
 //     navigate(`/admin/showtime/${id}`);
 //   };
 
-
     const[films,setFilms] = useState([]);
 
     const fetchFilms = () => {
         filmService.getAll().then((res) => {
             // console.log(res["data"]["response"])
             setFilms(res["data"]["response"])
+        })
+        .catch((e) => {
+            toast.error("Don't view film now")
+            console.log(e)
         })
     }
 
@@ -59,11 +62,11 @@ const AllFilms = () => {
         <table className="table table-hover">
           <thead >
             <tr >
-              <th scope="col" className = "col-2">#</th>
-              <th scope="col" className = "col-2">Name</th>
-              <th scope="col" className = "col-1">Duration</th>
-              <th scope="col" className = "col-1">Type</th>
-              <th scope="col" className = "col-2" >Images</th>
+              <th scope="col" className = "col">#</th>
+              <th scope="col" className = "col">Name</th>
+              <th scope="col" className = "col">Duration</th>
+              <th scope="col" className = "col">Type</th>
+              <th scope="col" className = "col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -74,7 +77,6 @@ const AllFilms = () => {
                   <td>{film.name}</td>
                   <td>{film.duration}</td>
                   <td>{film.category_name}</td>
-                  <td >{film.images}</td>
                   <td>
                     <button
                       className="btn btn-info me-2"
