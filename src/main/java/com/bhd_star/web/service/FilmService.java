@@ -82,7 +82,7 @@ public class FilmService {
 
         // Lưu URL ảnh và URL xóa vào film
         film.setImages(String.join(",", imageUrls));
-        film.setDeleteUrls(String.join(",", deleteUrls));
+//        film.setDeleteUrls(String.join(",", deleteUrls));
 
         // Lưu film vào database
         Film savedFilm = filmRepository.save(film);
@@ -196,7 +196,7 @@ public class FilmService {
 
         // Lưu URL ảnh và URL xóa vào film
         film.setImages(String.join(",", imageUrls));
-        film.setDeleteUrls(String.join(",", deleteUrls));
+//        film.setDeleteUrls(String.join(",", deleteUrls));
 
         return filmMapper.toFilmResponse(filmRepository.save(film));
     }

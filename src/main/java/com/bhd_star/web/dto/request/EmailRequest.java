@@ -1,8 +1,5 @@
 package com.bhd_star.web.dto.request;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class ShowtimeCreationRequest {
-    LocalDateTime start_time;
-    String theater_id;
-    String film_id;
+public class EmailRequest {
+    private String to;
+    private String subject;
+    private String body;
 }

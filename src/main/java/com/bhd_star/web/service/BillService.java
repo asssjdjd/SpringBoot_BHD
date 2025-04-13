@@ -34,7 +34,9 @@ public class BillService {
     public BillResponse createBill(BillCreationResquest request) {
         Bill bill = billMapper.toBill(request);
         String userId = request.getUser_id();
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Not found User"));
+        User user = userRepository.findByUsername(userId)
+                .orElseThrow(() -> new RuntimeException("Not found User"));
+//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Not found User"));
         bill.setUser(user);
         return billMapper.toBillResponse(billRepository.save(bill));
     }

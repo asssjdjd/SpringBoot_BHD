@@ -16,7 +16,7 @@ public class TheaterResponse {
     String address;
     String phone;
     String email;
-    String deleteUrls;
+//    String deleteUrls;
 
     String policy;
 

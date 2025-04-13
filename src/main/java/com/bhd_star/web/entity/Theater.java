@@ -25,6 +25,6 @@ public class Theater {
     @Column(columnDefinition = "TEXT")
     String policy;
 
-    String deleteUrls;
+//    String deleteUrls;
     String images;
 }

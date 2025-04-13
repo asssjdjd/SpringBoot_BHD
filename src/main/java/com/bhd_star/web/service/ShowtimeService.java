@@ -24,6 +24,7 @@ public class ShowtimeService {
     ShowtimeRepository showtimeRepository;
     ShowtimeMapper showtimeMapper;
 
+
     public List<ShowtimeReponse> getShowTimes() {
         log.info("show all Users");
         return showtimeRepository.findAll().stream()

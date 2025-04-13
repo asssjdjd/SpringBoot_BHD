@@ -85,7 +85,7 @@ public class TheaterService {
         }
 
         theater.setImages(String.join(",", imageUrls));
-        theater.setDeleteUrls(String.join(",", deleteUrls));
+//        theater.setDeleteUrls(String.join(",", deleteUrls));
 
         // Lưu theater vào database
         Theater savedTheater = theaterRepository.save(theater);
@@ -105,43 +105,43 @@ public class TheaterService {
         String nameTheater = theater.getName();
 
         // Xử lý xóa ảnh trên ImgBB trước khi xóa record trong database
-        String deleteUrlsString = theater.getDeleteUrls();
-
-        if (deleteUrlsString != null && !deleteUrlsString.isEmpty()) {
-            // Khởi tạo ImgBBUploader
-            ImgBBUploader uploader = new ImgBBUploader();
-
-            // Phân tách các URL xóa
-            List<String> deleteUrls = new ArrayList<>();
-
-            // Xử lý các trường hợp đặc biệt của chuỗi URL xóa
-            if (deleteUrlsString.endsWith(",")) {
-                deleteUrlsString = deleteUrlsString.substring(0, deleteUrlsString.length() - 1);
-            }
-
-            if (deleteUrlsString.contains(",")) {
-                String[] urls = deleteUrlsString.split(",");
-                for (String url : urls) {
-                    if (url != null && !url.trim().isEmpty()) {
-                        deleteUrls.add(url.trim());
-                    }
-                }
-            } else if (!deleteUrlsString.trim().isEmpty()) {
-                deleteUrls.add(deleteUrlsString.trim());
-            }
-
-            // Xóa từng ảnh trên ImgBB
-            for (String deleteUrl : deleteUrls) {
-                try {
-                    log.debug("Đang xóa ảnh với URL: {}", deleteUrl);
-                    uploader.deleteImage(deleteUrl);
-                    log.debug("Đã xóa ảnh thành công");
-                } catch (IOException e) {
-                    // Log lỗi nhưng vẫn tiếp tục xóa các ảnh khác
-                    log.error("Lỗi khi xóa ảnh {}: {}", deleteUrl, e.getMessage());
-                }
-            }
-        }
+//        String deleteUrlsString = theater.getDeleteUrls();
+//
+//        if (deleteUrlsString != null && !deleteUrlsString.isEmpty()) {
+//            // Khởi tạo ImgBBUploader
+//            ImgBBUploader uploader = new ImgBBUploader();
+//
+//            // Phân tách các URL xóa
+//            List<String> deleteUrls = new ArrayList<>();
+//
+//            // Xử lý các trường hợp đặc biệt của chuỗi URL xóa
+//            if (deleteUrlsString.endsWith(",")) {
+//                deleteUrlsString = deleteUrlsString.substring(0, deleteUrlsString.length() - 1);
+//            }
+//
+//            if (deleteUrlsString.contains(",")) {
+//                String[] urls = deleteUrlsString.split(",");
+//                for (String url : urls) {
+//                    if (url != null && !url.trim().isEmpty()) {
+//                        deleteUrls.add(url.trim());
+//                    }
+//                }
+//            } else if (!deleteUrlsString.trim().isEmpty()) {
+//                deleteUrls.add(deleteUrlsString.trim());
+//            }
+//
+//            // Xóa từng ảnh trên ImgBB
+//            for (String deleteUrl : deleteUrls) {
+//                try {
+//                    log.debug("Đang xóa ảnh với URL: {}", deleteUrl);
+//                    uploader.deleteImage(deleteUrl);
+//                    log.debug("Đã xóa ảnh thành công");
+//                } catch (IOException e) {
+//                    // Log lỗi nhưng vẫn tiếp tục xóa các ảnh khác
+//                    log.error("Lỗi khi xóa ảnh {}: {}", deleteUrl, e.getMessage());
+//                }
+//            }
+//        }
 
         theaterRepository.deleteById(theaterId);
 
@@ -194,7 +194,7 @@ public class TheaterService {
 
         // Lưu URL ảnh và URL xóa vào film
         theater.setImages(String.join(",", imageUrls));
-        theater.setDeleteUrls(String.join(",", deleteUrls));
+//        theater.setDeleteUrls(String.join(",", deleteUrls));
 
         return theaterMapper.toTheaterResponse(theaterRepository.save(theater));
     }

@@ -79,7 +79,7 @@ public class FoodComboService {
 
         // Lưu URL ảnh và URL xóa vào film
         foodCombo.setImages(String.join(",", imageUrls));
-        foodCombo.setDeleteUrls(String.join(",", deleteUrls));
+//        foodCombo.setDeleteUrls(String.join(",", deleteUrls));
 
         // Lưu film vào database
         FoodCombo savedFoodCombo = foodComboRepository.save(foodCombo);
@@ -91,11 +91,13 @@ public class FoodComboService {
         return foodComboResponse;
     }
 
+
     public List<FoodComboResponse> getAllFoodCombos() {
         return foodComboRepository.findAll().stream()
                 .map(foodComboMapper::toFoodComboResponse)
                 .toList();
     }
+
 
     public FoodComboResponse getFoodComboById(Long foodComboId) {
         FoodCombo foodCombo = foodComboRepository
@@ -203,11 +205,11 @@ public class FoodComboService {
 
         // Lưu URL ảnh và URL xóa vào film
         foodCombo.setImages(String.join(",", imageUrls));
-        foodCombo.setDeleteUrls(String.join(",", deleteUrls));
+//        foodCombo.setDeleteUrls(String.join(",", deleteUrls));
 
         return foodComboMapper.toFoodComboResponse(foodComboRepository.save(foodCombo));
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public FoodComboResponse showFoodCombo(Long foodComboId) {
         FoodCombo foodCombo =
                 foodComboRepository.findById(foodComboId).orElseThrow(() -> new RuntimeException("Film not found"));

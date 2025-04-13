@@ -26,7 +26,7 @@ public class TheaterCreationRequest {
 
     String policy;
 
-    String deleteUrls;
+//    String deleteUrls;
 
     List<MultipartFile> images;
 }

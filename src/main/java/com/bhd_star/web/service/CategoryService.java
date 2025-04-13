@@ -29,6 +29,7 @@ public class CategoryService {
 
     CategoryRepository categoryRepository;
 
+
     public List<CategoryResponse> getAllCategorys() {
         List<Category> categorys = categoryRepository.findAll();
         return categorys.stream().map(categoryMapper::toCategoryResponse).toList();
@@ -58,6 +59,7 @@ public class CategoryService {
         categoryMapper.updateCategory(category, request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
+
 
     public CategoryResponse getFilm(String type) {
         Category category = categoryRepository

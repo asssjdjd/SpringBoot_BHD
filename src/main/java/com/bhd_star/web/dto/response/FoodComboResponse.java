@@ -14,7 +14,7 @@ public class FoodComboResponse {
 
     Long id;
 
-    String deleteUrls;
+//    String deleteUrls;
 
     String images;
 

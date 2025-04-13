@@ -16,7 +16,7 @@ public class FoodCombo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String deleteUrls;
+//    String deleteUrls;
 
     @Column(name = "images", length = 1024)
     String images;

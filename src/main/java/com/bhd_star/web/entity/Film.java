@@ -20,7 +20,7 @@ public class Film {
 
     String video_link;
 
-    String deleteUrls;
+//    String deleteUrls;
 
     @Column(name = "images", length = 1024)
     String images;

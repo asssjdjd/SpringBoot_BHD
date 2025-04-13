@@ -75,7 +75,7 @@ public class AuthenticationService {
         // tao token moi tu user
         var username = signedJWT.getJWTClaimsSet().getSubject();
 
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHORIZED));
+        var user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         var token = getCreateToken(user);
         //        tao token
@@ -116,10 +116,10 @@ public class AuthenticationService {
                 .toEpochMilli())
                 : signedJWT.getJWTClaimsSet().getExpirationTime();
 
-        if (!(verified && expTime.after(new Date()))) throw new AppException(ErrorCode.UNAUTHORIZED);
+        if (!(verified && expTime.after(new Date()))) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())) {
-            throw new AppException(ErrorCode.UNAUTHORIZED);
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
         return signedJWT;

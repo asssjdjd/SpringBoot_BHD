@@ -2,6 +2,7 @@ package com.bhd_star.web.controllers.User;
 
 import java.util.List;
 
+import com.bhd_star.web.dto.request.UsernameRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -63,4 +64,12 @@ public class UserController {
                 .response(userService.getUser(userId))
                 .build();
     }
+
+    @PostMapping("/my-profile")
+    ApiResponse<UserResponse> getMyProfile(@RequestBody UsernameRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .response(userService.getUserByUsername(request.getUsername()))
+                .build();
+    }
+
 }

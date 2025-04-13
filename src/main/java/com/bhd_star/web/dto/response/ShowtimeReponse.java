@@ -1,6 +1,7 @@
 package com.bhd_star.web.dto.response;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ShowtimeReponse {
     Long id;
-    LocalDate start_time;
-    Long theater_id;
+    LocalDateTime start_time;
+    String theater_id;
     String film_id;
 }

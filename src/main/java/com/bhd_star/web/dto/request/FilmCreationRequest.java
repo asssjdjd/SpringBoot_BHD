@@ -22,5 +22,5 @@ public class FilmCreationRequest {
     LocalDate launch_date;
     String description;
     String category_name;
-    String deleteUrls;
+//    String deleteUrls;
 }

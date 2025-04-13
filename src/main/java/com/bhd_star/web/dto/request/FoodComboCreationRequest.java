@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 public class FoodComboCreationRequest {
 
-    String deleteUrls;
+//    String deleteUrls;
 
     List<MultipartFile> images;
 

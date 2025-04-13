@@ -9,6 +9,7 @@ import jakarta.validation.ConstraintViolation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -110,6 +111,17 @@ public class GobalException {
 
     @ExceptionHandler(value = AccessDeniedException.class)
     ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception) {
+        ApiResponse apiResponse = new ApiResponse();
+        ErrorCode erorrCode = ErrorCode.UNAUTHORIZED;
+
+        apiResponse.setCode(erorrCode.getCode());
+        apiResponse.setMessage(erorrCode.getMessge());
+
+        return ResponseEntity.status(erorrCode.getStatusCode()).body(apiResponse);
+    }
+
+    @ExceptionHandler(value = AuthenticationServiceException.class)
+    ResponseEntity<ApiResponse> handlingAuthenticatedException(AccessDeniedException exception) {
         ApiResponse apiResponse = new ApiResponse();
         ErrorCode erorrCode = ErrorCode.UNAUTHORIZED;
 

@@ -1,6 +1,7 @@
 package com.bhd_star.web.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class Showtime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    LocalDate start_time;
-    Long theater_id;
+    LocalDateTime start_time;
+    String theater_id;
     String film_id;
 }
