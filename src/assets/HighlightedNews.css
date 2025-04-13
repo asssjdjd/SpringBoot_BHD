@@ -1,0 +1,88 @@
+.highlighted-news {
+    padding-bottom: 3rem;
+    background-image: url('/asset/img/khuyenmai/promotionBg.jpg'); /* Assumes public folder */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .highlighted-news .cart-wrapper3 {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .highlighted-news .card-item {
+    padding: 10px;
+  }
+  
+  .highlighted-news .card-link {
+    display: block;
+    text-decoration: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .highlighted-news .card-link:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  
+  .highlighted-news .card-image {
+    width: 100%;
+    /* Consistent base size */
+    height: 600px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  
+  .highlighted-news .swiper-pagination {
+    position: relative;
+    margin-top: 1.5rem;
+  }
+  
+  .highlighted-news .swiper-button-prev,
+  .highlighted-news .swiper-button-next {
+    color: #72be43;
+    font-weight: bold;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .highlighted-news .swiper-button-prev {
+    margin-left: 60px; /* Matches your inline style */
+  }
+  
+  .highlighted-news .swiper-button-next {
+    margin-right: 60px; /* Symmetry */
+  }
+  
+  .highlighted-news .swiper-button-prev::after,
+  .highlighted-news .swiper-button-next::after {
+    font-size: 2rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .highlighted-news .card-image {
+      max-width: 300px;
+    }
+  
+    .highlighted-news .swiper-button-prev,
+    .highlighted-news .swiper-button-next {
+      font-size: 1.5rem;
+    }
+  
+    .highlighted-news .swiper-button-prev {
+      margin-left: 20px;
+    }
+  
+    .highlighted-news .swiper-button-next {
+      margin-right: 20px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .highlighted-news .card-image {
+      max-width: 250px;
+    }
+  }

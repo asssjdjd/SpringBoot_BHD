@@ -1,5 +1,7 @@
 
 import React from "react";
+// import { lazy,Suspense } from "react";
+
 import { Routes, Route } from "react-router-dom";
 import RegisterLogin from "../pages/Register-Login";
 import AdminPaste from "../pages/AdminPage"
@@ -16,12 +18,34 @@ import AllShowtimes from "../components/EditShowtime";
 import CreateShowtime from "../components/CreateShowtime";
 import CreateFoodCombo from "../components/CreateFoodCombo";
 import AllFoods from "../components/EditFoodCombos";
+import Home from "../pages/Home";
+import AboutUs from "../components/AboutUs";
+import NowShowingpage from "../pages/Now-Showing";
+import ShoppingFood from "../pages/Shoping-food";
+import Promotion from "../pages/PromotionPage";
+import FilmDetail from "../components/DetailFilm";
+import OLComboCouple from "../components/QLComboCouple";
+import Cart from "../pages/ShoppingCart";
+
+
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/register-login" element={<RegisterLogin />} />
+      
+      <Route path = "/cart" element  = {<Cart />}></Route>
 
+      <Route path = "/detail-food" element  = {<OLComboCouple />}></Route>
+      <Route path = "/about-us" element = {<AboutUs />}></Route>
+      <Route path = "/lich-chieu" element = {<NowShowingpage />} ></Route>
+      <Route path = "/cua-hang" element = {<ShoppingFood />}></Route>
+      <Route path= "/promotion" element = {<Promotion />}></Route>
+      <Route path = '/home/detail-film/:filmId' element = {<FilmDetail />} ></Route>\
+
+      <Route path = "/home" element = {<Home/>}>
+          <Route path = "detail-food" element  = {<OLComboCouple />}></Route>
+      </Route>
 
       <Route path = "/admin" element= {<AdminPaste />} >
           <Route path = "user" element = {<AllUsers />}> </Route>
@@ -39,7 +63,9 @@ const AppRoutes = () => {
           <Route path = "create-food" element = {<CreateFoodCombo />}/>
       </Route>
 
+      <Route path = "*" element = {<RegisterLogin />}></Route>
     </Routes>
+    
   );
 };
 

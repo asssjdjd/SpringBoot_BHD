@@ -1,5 +1,5 @@
 import axious from 'axios';
-
+// import { refreshToken } from '../Api/AuthService';
 
 const axiosClient = axious.create({
     baseURL: "http://localhost:8080/identity",
@@ -10,17 +10,35 @@ const axiosClient = axious.create({
 });
 
 // axiosClient.interceptors.response.use(
-//   (response) => {
-//     if (response.status >= 200 && response.status < 300) {
-//       return response.data?.data || response.data;
-//     } else {
-//       throw new Error(response.data?.message || 'Unexpected error');
+//   (res) => res,
+//   async (err) => {
+//     console.error('Lỗi response interceptor:', err); // 🧪 In toàn bộ lỗi
+//     const originalRequest = err.config;
+//     // console.log(err.response?.status)
+//     // err.response?.status === 401 &&
+//     // console.log(err["status"])
+//     //  console.log(!originalRequest._retry)
+//     if (!originalRequest._retry) {
+//        // Nếu không in => err.response là undefined
+//       originalRequest._retry = true;
+//       try {
+//         console.log("yes");
+//         const res = await refreshToken();
+//         // console.log(res)
+//         // console.log(res["data"]["response"]["token"])
+//         localStorage.setItem("token",res["data"]["response"]["token"]) // nên thêm await nếu cần đợi token mới
+//       } catch (e) {
+//         console.log(e)
+//         sessionStorage.clear();
+//         localStorage.clear();
+//         // window.location.href = '/login';
+//       }
 //     }
-//   },
-//   (error) => {
-//     Promise.reject(error)
+
+//     return Promise.reject(err);
 //   }
 // );
+
 
 
 axiosClient.interceptors.request.use(

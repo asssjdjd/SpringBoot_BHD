@@ -7,7 +7,8 @@ const userAPI = {
   getById: (id) => axiosClient.get(`/users/${id}`),
   update: (id, data) => axiosClient.put(`/users/${id}`, data),
   delete: (id) => axiosClient.delete(`/users/${id}`),
-  create: (data) => axiosNoAuth.post('/users',data),   
+  create: (data) => axiosNoAuth.post('/users',data),  
+  getInfor: (username) =>axiosClient.post('/users/my-profile',username) 
 };
 
 export default userAPI;

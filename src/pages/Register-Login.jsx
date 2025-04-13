@@ -12,10 +12,19 @@ import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
 import Banner from "../layouts/Banner";
 import Navbar from "../layouts/Navbar";
+import { useNavigate } from "react-router-dom";
+// import userAPI from "../services/Api/UserService";
+import {  useDispatch} from "react-redux";
+import { updateAll } from "../features/redux/UserSlice";
+import {jwtDecode} from 'jwt-decode' 
 
 const RegisterLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  
+
+  const navigate = useNavigate();
 
   const { values, handleChange} = useCreateUser({
     username: '',
@@ -26,6 +35,7 @@ const RegisterLogin = () => {
 
  const handleUsername = (e) => {
     setUsername(e.target.value)
+    
  }
 
  const handlePassWord = (e) => {
@@ -48,8 +58,27 @@ const RegisterLogin = () => {
         //   console.log(auth)
         localStorage.setItem("token",token)
         localStorage.setItem("authenticated",auth)
+
+        const decoded = jwtDecode(token)
+        const scopeString = decoded.scope;
+
+        // console.log(username)
+        // console.log(token)
+
+        const userApi = {username : username}
+
+        userAPI.getInfor(userApi)
+        .then((res) => {
+          const user = res["data"]["response"]
+          dispatch(updateAll({id: user.id, role : scopeString,isAuthenticated: auth}))
+        })
+        .catch((e) => {
+          console.log(e)
+        })
         
         toast.success("Success Login")
+        navigate('/home')
+        
       }
     })
     .catch((error) => {
@@ -63,7 +92,7 @@ const RegisterLogin = () => {
     // console.log(JSON.stringify(values))
     userAPI.create(JSON.stringify(values))
     .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         var username = response.data["response"]["username"];
         toast.success("User : " + username + " has been created success!")
     })

@@ -8,18 +8,20 @@ const authService = {
 
     logout: () => axiosClient.post('/auth/logout'),
 
-    refreshToken: () => axiosClient.post('/auth/refresh-token'),
-    // get my infor
-    getCurrentUser: () => {
-        const token = localStorage.getItem('token');
-        if (token) {
-        return axiosClient.get('/auth/me', {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-        }
-        return null;
-    },
+    
+    
 };
 export default authService;
+export const refreshToken = () => {
+    const oldToken = localStorage.getItem('token');
+    console.log(oldToken)
+    const token = {"token" : oldToken}
+    console.log(token)
+    return axiosNoAuth.post('auth/refresh',token)
+    // .then(res => {
+    // //   const newToken = res.data.token; 
+    // console.log(res)
+    // //   localStorage.setItem('token', newToken);
+    // //   return newToken;
+    // });
+  };

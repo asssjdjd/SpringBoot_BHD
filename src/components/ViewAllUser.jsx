@@ -38,7 +38,7 @@ const AllUsers = () => {
   return (
     <>
       <div>
-        <h1 className="text-success mt-3 ms-4 mb-3">Theaters</h1>
+        <h1 className="text-success mt-3 ms-4 mb-3">Users</h1>
         
         <table className="table table-hover">
           <thead>
@@ -47,6 +47,8 @@ const AllUsers = () => {
               <th>Username</th>
               <th>Phonenumber</th>
               <th>BirthDay</th>
+              <th>Actions</th>
+
             </tr>
           </thead>
           <tbody>

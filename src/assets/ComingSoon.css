@@ -1,0 +1,121 @@
+.coming-soon {
+    padding-bottom: 3rem;
+    background-color: #f8f9fa; /* Light background for contrast, matches Bootstrap */
+  }
+  
+  .coming-soon .cart-wrapper4 {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .coming-soon .card-item {
+    padding: 10px;
+    position: relative;
+  }
+  
+  .coming-soon .card-link {
+    display: block;
+    background: transparent;
+    padding: 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.3s ease;
+  }
+  
+  .coming-soon .card-link:hover {
+    opacity: 0.85;
+  }
+  
+  .coming-soon .card-image {
+    max-width: 100%;
+    width: 300px; /* Consistent base size */
+    height: auto;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .coming-soon .card-link:hover .card-image {
+    box-shadow: 0 8px 16px 0 #72be43;
+  }
+  
+  .coming-soon .continue {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    color: #72be43;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    z-index: 10;
+  }
+  
+  .coming-soon .continue.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+  }
+  
+  .coming-soon .card-content {
+    color: #72be43;
+  }
+  
+  .coming-soon .movie-title {
+    display: block;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .coming-soon .card-content p {
+    font-size: 1rem;
+    color: #494949; /* Matches your grey */
+  }
+  
+  .coming-soon .swiper-pagination {
+    position: relative;
+    margin-top: 1.5rem;
+  }
+  
+  .coming-soon .swiper-button-prev,
+  .coming-soon .swiper-button-next {
+    color: #72be43;
+    font-weight: bold;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .coming-soon .swiper-button-prev::after,
+  .coming-soon .swiper-button-next::after {
+    font-size: 2rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .coming-soon .card-image {
+      width: 250px;
+    }
+  
+    .coming-soon .continue {
+      font-size: 60px;
+    }
+  
+    .coming-soon .movie-title {
+      font-size: 1.1rem;
+    }
+  
+    .coming-soon .card-content p {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .coming-soon .card-image {
+      width: 200px;
+    }
+  
+    .coming-soon .continue {
+      font-size: 50px;
+    }
+  }

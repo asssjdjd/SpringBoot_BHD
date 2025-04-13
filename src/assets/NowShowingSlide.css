@@ -1,0 +1,124 @@
+#now-showing-slide {
+    padding: 20px 0;
+  }
+  
+  #now-showing-slide .cart-wrapper {
+    width: 96%;
+    margin: 0 auto;
+  }
+  
+  #now-showing-slide .card-item {
+    padding: 10px;
+    text-align: center;
+    position: relative;
+  }
+  
+  #now-showing-slide .card-item img {
+    width: 250px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease, opacity 0.3s ease;
+    user-select: none;
+  }
+  
+  #now-showing-slide .card-item img:hover {
+    box-shadow: 0 8px 16px 0 #72be43;
+    opacity: 0.9;
+  }
+  
+  #now-showing-slide .card-item .buy_now {
+    position: absolute;
+    bottom: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #72be43;
+    border: 1px solid #72be43;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 550;
+    text-decoration: none;
+    width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 10;
+  }
+  
+  #now-showing-slide .card-item .buy_now.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  #now-showing-slide .card-item .continue {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    color: #72be43;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 10;
+  }
+  
+  #now-showing-slide .card-item .continue.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  #now-showing-slide .card-item .meta {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  #now-showing-slide .card-item h4 {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  #now-showing-slide .card-item .cats {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  #now-showing-slide .swiper-pagination {
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  #now-showing-slide .swiper-button-prev,
+  #now-showing-slide .swiper-button-next {
+    color: #72be43;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  #now-showing-slide .swiper-button-prev::after,
+  #now-showing-slide .swiper-button-next::after {
+    font-size: 30px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    #now-showing-slide .card-item img {
+      width: 200px;
+    }
+  
+    #now-showing-slide .card-item .buy_now {
+      width: 150px;
+      bottom: 120px;
+      font-size: 0.9rem;
+    }
+  
+    #now-showing-slide .card-item .continue {
+      font-size: 60px;
+    }
+  
+    #now-showing-slide .card-item h4 {
+      font-size: 16px;
+    }
+  }

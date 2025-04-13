@@ -1,0 +1,96 @@
+.special-combo {
+    background-color: #f8f9fa; /* Light background for contrast, matches Bootstrap */
+    padding-bottom: 3rem;
+  }
+  
+  .special-combo .cart-wrapper2 {
+    width: 100%;
+    max-width: 1400px; 
+    margin: 0 auto;
+  }
+  
+  .special-combo .card-item {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .special-combo .card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .special-combo .card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .special-combo .card-image {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  .special-combo .cart-title {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .special-combo .card-description {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+    max-height: 4.5rem; /* Limit description height */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 3; */
+    -webkit-box-orient: vertical;
+  }
+  
+  .special-combo .swiper-pagination {
+    position: relative;
+    margin-top: 1.5rem;
+  }
+  
+  .special-combo .swiper-button-prev,
+  .special-combo .swiper-button-next {
+    color: #72be43;
+    font-weight: bold;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .special-combo .swiper-button-prev::after,
+  .special-combo .swiper-button-next::after {
+    font-size: 2rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .special-combo .card-image {
+      max-width: 300px;
+      height: 300px;
+    }
+  
+    .special-combo .cart-title {
+      font-size: 1.1rem;
+    }
+  
+    .special-combo .card-description {
+      font-size: 0.9rem;
+      max-height: 3.6rem;
+      /* -webkit-line-clamp: 2; */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .special-combo .card-image {
+      max-width: 250px;
+      height: 250px;
+    }
+  }

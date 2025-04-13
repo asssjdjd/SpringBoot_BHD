@@ -13,6 +13,7 @@ const CreateShowtime = () => {
   const [startTime, setStartTime] = useState("");
   const [theaterId, setTheaterId] = useState("");
   const [filmId, setFilmId] = useState("");
+  // const [time,setTime] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,11 +73,11 @@ const CreateShowtime = () => {
       >
         <div className="mb-3">
           <label htmlFor="startTime" className="form-label">
-            Start Time
+            Start Time {}
           </label>
           <input
             id="startTime"
-            type="date" // Using date input for start_time
+            type="datetime-local" // Using date input for start_time
             className="form-control"
             placeholder="Select start time (e.g., 2025-04-04)"
             value={startTime}
@@ -104,14 +105,14 @@ const CreateShowtime = () => {
         <div className="mb-3">
           <label>Chọn film:</label>
           <select
-            className="form-select w-25"
+            className="form-select w-50"
             onChange={handleChangeFilm}
             required
           >
             <option value="">-- các film --</option>
             {films.map((film) => (
               <option key={film.id} value={film.name}>
-                {film.name}
+                {film.name} : {film.launch_date}
               </option>
             ))}
           </select>

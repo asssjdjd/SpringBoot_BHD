@@ -1,0 +1,151 @@
+/* General container for the slideshow */
+#slide-header {
+    overflow: hidden;
+    position: relative; /* Ensure absolute children are positioned relative to this */
+  }
+  
+  /* Image list container */
+  .list-images {
+    display: flex;
+    transition: transform 0.5s ease; /* Smooth sliding effect */
+  }
+  
+  /* Individual images */
+  #slide-header .list-images img {
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* Ensure images scale without distortion */
+    flex-shrink: 0; /* Prevent images from shrinking in flex container */
+  }
+  
+  /* Slideshow wrapper */
+  #slide-header .slide-show {
+    position: relative;
+    width: 100%;
+  }
+  
+  /* Navigation buttons */
+  #slide-header .btns_slide .btn-left,
+  #slide-header .btns_slide .btn-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    font-size: 3rem; /* More reasonable size, adjustable */
+    color: gray;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3); /* Subtle background for visibility */
+    border: none;
+    padding: 0.5rem;
+    z-index: 15; /* Ensure buttons are above other elements */
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  #slide-header .btns_slide .btn-left {
+    left: 10px;
+  }
+  
+  #slide-header .btns_slide .btn-right {
+    right: 10px;
+  }
+  
+  #slide-header .btns_slide .btn-left:hover,
+  #slide-header .btns_slide .btn-right:hover {
+    color: #72be43;
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker on hover */
+  }
+  
+  /* Index dots */
+  #slide-header .index-images-slide-header {
+    position: absolute;
+    bottom: 20px; /* More breathing room */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px; /* Modern alternative to margin */
+    z-index: 10; /* Ensure dots are above images but below buttons */
+  }
+  
+  #slide-header .class-item {
+    width: 10px;
+    height: 10px;
+    background-color: #999;
+    border-radius: 50%;
+    border: 2px solid #999;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  #slide-header .class-item.active {
+    background-color: #72be43;
+    border-color: #72be43; /* Match active state with theme color */
+  }
+  
+  /* Content overlay */
+  #slide-header .content-slide-header {
+    position: absolute;
+    bottom: 40px; /* Avoid overlap with dots */
+    left: 0;
+    right: 0;
+    z-index: 10;
+    color: white; /* Ensure text is readable */
+  }
+  
+  /* Button styles */
+  #slide-header .content-slide-header .btn_1 {
+    background-color: #72be43;
+    border: 1px solid #72be43;
+    border-radius: 10px;
+    transition: opacity 0.3s ease;
+  }
+  
+  #slide-header .content-slide-header .btn_1:hover {
+    opacity: 0.9; /* Subtle hover effect */
+  }
+  
+  #slide-header .content-slide-header .btn_2 {
+    background-color: white;
+    color: #72be43;
+    border: 1px solid #72be43;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  #slide-header .content-slide-header .btn_2:hover {
+    background-color: #72be43;
+    color: white;
+  }
+  
+  #slide-header .content-slide-header .btn_3 {
+    color: #72be43;
+    background-color: white;
+    border: 1px solid #72be43;
+    border-radius: 12px;
+    transition: color 0.3s ease;
+  }
+  
+  #slide-header .content-slide-header .btn_3:hover {
+    color: #999;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    #slide-header .btns_slide .btn-left,
+    #slide-header .btns_slide .btn-right {
+      font-size: 2rem; /* Smaller buttons on mobile */
+      padding: 0.3rem;
+    }
+  
+    #slide-header .content-slide-header {
+      bottom: 60px; /* More space for smaller screens */
+      padding: 0 10px; /* Prevent content from touching edges */
+    }
+  
+    #slide-header .index-images-slide-header {
+      bottom: 10px;
+    }
+  
+    #slide-header .class-item {
+      width: 8px;
+      height: 8px;
+    }
+  }
